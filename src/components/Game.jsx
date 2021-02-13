@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { gameContext } from '../GameContext';
 
 export const Game =  () => {
     const [currentScore, setCurrentScore] = React.useState(0);
@@ -6,6 +7,9 @@ export const Game =  () => {
     const [screenWidth, setScreenWidth] = React.useState(window.innerWidth);
     const [screenHeight, setScreenHeight] = React.useState(window.innerHeight);
     const [ratio, setRatio] = React.useState(window.devicePixelRatio || 1);
+    const [asteroidCount, setAsteroidCount] = React.useState(3);
+    const [inGame, setInGame] = React.useState(false);
+    const { keys, context } = React.useContext(gameContext);
 
     let endgame = 'Herp'
 
