@@ -20,28 +20,10 @@ export const Game =  () => {
         [group].push(item);
     }
 
-    const handleResize = (value, e) => {
-        // this.setState({
-        //   screen : {
-        //     width: window.innerWidth,
-        //     height: window.innerHeight,
-        //     ratio: window.devicePixelRatio || 1,
-        //   }
-        // });
-    }
-
-    // const handleKeys = (value, e) => {
-    //     let startingKeys = keys;
-    //     if(e.keyCode === keyset.LEFT   || e.keyCode === keyset.A) startingKeys.left  = value;
-    //     if(e.keyCode === keyset.RIGHT  || e.keyCode === keyset.D) startingKeys.right = value;
-    //     if(e.keyCode === keyset.UP     || e.keyCode === keyset.W) startingKeys.up    = value;
-    //     if(e.keyCode === keyset.SPACE) startingKeys.space = value;
-    //     setKeys(startingKeys)
-    // }
-
     const updateObjects = (items, group) => {
         let index = 0;
         for (let item of items) {
+            console.log('I', item)
             if (item.delete) {
                 [group].splice(index, 1);
             } else {
@@ -91,7 +73,6 @@ export const Game =  () => {
                 // addScore: addScore()
             });
           createObject(asteroid, 'asteroids');
-        //   setAsteroids(asteroids => [...asteroids, asteroid])
         }
     }
 
@@ -119,28 +100,14 @@ export const Game =  () => {
             updateContext.globalAlpha = 0.4;
             updateContext.fillRect(0, 0, window.innerWidth, window.innerHeight);
             updateContext.globalAlpha = 1;
-        
-            // Next set of asteroids
-            if(!asteroids.length){
-                let count = asteroidCount + 1;
-                // setAsteroidCount(count)
-                generateAsteroids(count)
-            }
-        
-            // Check for colisions
-            // checkCollisionsWith(bullets, asteroids);
-            checkCollisionsWith(ship, asteroids);
-        
+                
             // Remove or render
-            // updateObjects(particles, 'particles')
             updateObjects(asteroids, 'asteroids')
-            // updateObjects(bullets, 'bullets')
-            updateObjects(ship, 'ship')
         
             updateContext.restore();
         
             // Next frame
-            // requestAnimationFrame(() => {update()});
+            requestAnimationFrame(() => update());
         }
     }
 
@@ -150,7 +117,7 @@ export const Game =  () => {
     
         // Make asteroids
         if(context) {
-            generateAsteroids(3)
+            generateAsteroids(asteroidCount)
         }
     }
 
@@ -162,9 +129,14 @@ export const Game =  () => {
         const contextEl = document.querySelector('#asteroid-canvas');
         const canvasContext = contextEl.getContext('2d');
         setContext(canvasContext);
-        startGame();
-        // requestAnimationFrame(() => {update()});
-    }, [context])
+    }, [])
+
+    React.useEffect(() => {
+        if(context) {
+            generateAsteroids(asteroidCount)
+        }
+        // requestAnimationFrame(() => update());
+    }, [context !== null])
 
     return (
         <div>
